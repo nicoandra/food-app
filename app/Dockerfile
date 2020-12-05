@@ -1,4 +1,4 @@
-FROM node:12.13-alpine As base
+FROM node:15-alpine As base
 
 FROM base As development
 
