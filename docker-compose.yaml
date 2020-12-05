@@ -1,0 +1,41 @@
+version: "3.6"
+
+services:
+  mongodb:
+    image: mongo:4
+    volumes:
+      - ./volumes/mongodb:/data
+
+  mongogui:
+    image: mongo-express
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=mongodb
+    ports:
+      - 8081:8081
+
+  app:
+    build:
+      context: app
+      target: development
+    ports:
+      - 3000:3000
+      - 9229:9229 # For NodeJs Debugger
+    volumes:
+      - ./app:/usr/src/app
+      - ./app/node_modules:/usr/src/app/node_modules
+    command: npm run start:debug
+    env_file:
+      - .env
+    depends_on:
+      - mongodb
+
+  app-test-watch:
+    build:
+      context: app
+      target: development
+    volumes:
+      - ./app:/usr/src/app
+      - ./app/node_modules:/usr/src/app/node_modules
+    command: npm run test:watch
+    env_file:
+      - .env
