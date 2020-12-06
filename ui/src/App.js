@@ -25,8 +25,6 @@ function App() {
           <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
       </Navbar>
-
-
     </Col>
   </Row>
   <Row as="main">
