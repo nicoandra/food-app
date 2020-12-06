@@ -1,15 +1,22 @@
-import { Module } from '@nestjs/common';
+import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UsersModule } from './users/users.module';
+import { APP_FILTER } from '@nestjs/core';
+import { HttpCrudValidationFilter } from './http-crud-validation.filter'
 
 const mongoSettings = `mongodb://${process.env.MONGODB_HOST}/${process.env.MONGODB_DB}`
-const mongooseModule = MongooseModule.forRoot(mongoSettings, {connectionName: "default"})
+const mongooseModule = MongooseModule.forRoot(mongoSettings)
+
+const httpExceptionFilter = {
+  provide: APP_FILTER,
+  useClass: HttpCrudValidationFilter,
+}
 
 @Module({
   imports: [mongooseModule, UsersModule],
   controllers: [AppController],
-  providers: [AppService],
-})
-export class AppModule {}
+  providers: [AppService, httpExceptionFilter],
+}) 
+export class AppModule{}
