@@ -25,6 +25,10 @@ export class UsersService {
     return this.userModel.findById(id).exec();
   }
 
+  async findByName(name: string) {
+    return this.userModel.findOne({name}).exec();
+  }
+
   update(id: string, updateUserDto: UpdateUserDto) {
     return `This action updates a #${id} user`;
   }
