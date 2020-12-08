@@ -12,8 +12,6 @@ export class AuthController {
     @Post('/login')
     async login_validation(@Request() req, @Body() loginDto: LoginDto) {
         return this.login(req, loginDto);
-        console.log(loginDto)
-        return this.authService.login(req.user);
     }
 
     @UseGuards(AuthGuard('local'))
