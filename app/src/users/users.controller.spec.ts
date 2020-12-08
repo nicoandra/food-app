@@ -1,6 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getModelToken } from '@nestjs/mongoose';
-
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 import { User } from './schemas/user.schema';
@@ -8,8 +7,6 @@ import { User } from './schemas/user.schema';
 
 describe('UsersController', () => {
   let controller: UsersController;
-
-
   const userModel = {}
 
   const userModelProvider =     {

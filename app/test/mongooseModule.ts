@@ -1,5 +1,21 @@
-import { MongooseModule } from '@nestjs/mongoose';
-const mongoSettings = `mongodb://${process.env.MONGODB_HOST}/${process.env.MONGODB_DB}`
-const mongooseModule = MongooseModule.forRoot(mongoSettings)
+import { MongooseModule, MongooseModuleOptions } from '@nestjs/mongoose';
+import { MongoMemoryServer } from 'mongodb-memory-server';
 
-export { MongooseModule }
+let mongod: MongoMemoryServer;
+
+export const rootMongooseTestModule = (options: MongooseModuleOptions = {}) => {
+  return MongooseModule.forRootAsync({
+    useFactory: async () => {
+      mongod = new MongoMemoryServer();
+      const mongoUri = await mongod.getUri();
+      return {
+        uri: mongoUri,
+        ...options,
+      }
+    },
+  })
+};
+
+export const closeInMongodConnection = async () => {
+  await mongod.stop();
+}
