@@ -19,7 +19,7 @@ const jwtAuthGuardProvider = {
     secret: jwtConstants.secret,
     signOptions: { expiresIn: '60s' },
   })],
-  providers: [AuthService, LocalStrategy, JwtStrategy, jwtAuthGuardProvider],
+  providers: [AuthService, LocalStrategy, JwtStrategy],
   controllers: [AuthController]
 })
 export class AuthModule {}
