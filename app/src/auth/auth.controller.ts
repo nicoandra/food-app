@@ -12,7 +12,7 @@ export class AuthController {
 
     constructor(private authService: AuthService) {}
 
-
+    @PublicRoute()
     @UseGuards(AuthGuard('local'))
     @Post('/login')
     async login(@Request() req) : Promise<LoginResponseDto> {

@@ -14,12 +14,14 @@ const jwtAuthGuardProvider = {
   useClass: JwtAuthGuard,
 }
 
+const jwtModule = JwtModule.register({
+  secret: jwtConstants.secret,
+  signOptions: { expiresIn: '1800s' },
+})
+
 @Module({
-  imports: [UsersModule, PassportModule, JwtModule.register({
-    secret: jwtConstants.secret,
-    signOptions: { expiresIn: '60s' },
-  })],
-  providers: [AuthService, LocalStrategy, JwtStrategy],
+  imports: [UsersModule, PassportModule, jwtModule],
+  providers: [AuthService, LocalStrategy, JwtStrategy, jwtAuthGuardProvider],
   controllers: [AuthController]
 })
 export class AuthModule {}
